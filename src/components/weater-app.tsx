@@ -1,10 +1,9 @@
 "use client"; // enables client side rendering
-import { Input } from "@/components/ui/input";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import "boxicons/css/boxicons.min.css";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import { useState, ChangeEvent, useRef } from "react";
+import { useState, ChangeEvent } from "react";
 import axios from "axios";
 
 interface WeatherData {
@@ -24,22 +23,22 @@ interface WeatherData {
   };
 }
 
-export default function weatherApp() {
-  const [error, setError] = useState("");
-  const [city, setCity] = useState("");
+export default function WeatherApp() {
+  const [error, setError] = useState<string>("");
+  const [city, setCity] = useState<string>("");
   const [weather, setWeather] = useState<WeatherData | null>(null);
 
   const weatherImage = () => {
     if (weather?.weather[0].main === "Rain") {
-      return <img src="/images/rain.png" alt="rainy" />;
+      return <Image src="/images/rain.png" alt="rainy" />;
     } else if (weather?.weather[0].main === "Clear") {
-      return <img src="/images/clear.png" alt="Clear" />;
+      return <Image src="/images/clear.png" alt="Clear" />;
     } else if (weather?.weather[0].main === "Clouds") {
-      return <img src="/images/cloud.png" alt="cloudy" />;
+      return <Image src="/images/cloud.png" alt="cloudy" />;
     } else if (weather?.weather[0].main === "Mist") {
-      return <img src="/images/mist.png" alt="mist" />;
+      return <Image src="/images/mist.png" alt="mist" />;
     } else if (weather?.weather[0].main === "Snow") {
-      return <img src="/images/snow.png" alt="snow" />;
+      return <Image src="/images/snow.png" alt="snow" />;
     }
 
     return null;
@@ -61,7 +60,7 @@ export default function weatherApp() {
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${weatherApi}`
       );
       setWeather(response.data);
-    } catch (err) {
+    } catch {
       setError("Could not fetch weather data. Please check the city name.");
     }
   };
@@ -84,7 +83,7 @@ export default function weatherApp() {
         >
           <div className="relative w-full h-14 flex items-center bg-transparent">
             <MapPinIcon className="absolute left-2 w-5 h-5 text-white" />
-            <Input
+            <input
               placeholder="Enter Location"
               type="text"
               onChange={handleInput}
@@ -94,7 +93,7 @@ export default function weatherApp() {
                 }
               }}
               className=" absolute w-full h-full bg-transparent border-2 border-solid border-[rgba(255,255,255,.1)] outline-none rounded-xl text-2xl text-white font-bold uppercase pr-12 pl-11 placeholder:text-white "
-            ></Input>
+            ></input>
             <button
               type="button"
               onClick={fetchWeather} // Trigger the fetchWeather function
