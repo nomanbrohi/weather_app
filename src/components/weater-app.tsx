@@ -35,7 +35,7 @@ export default function WeatherApp() {
       return <Image src="/images/clear.png" width={180} height={180} alt="Clear" />;
     } else if (weather?.weather[0].main === "Clouds") {
       return <Image src="/images/cloud.png" width={180} height={180} alt="cloudy" />;
-    } else if (weather?.weather[0].main === "Mist") {
+    } else if (weather?.weather[0].main === "Mist" || weather?.weather[0].main === "Haze") {
       return <Image src="/images/mist.png" width={180} height={180} alt="mist" />;
     } else if (weather?.weather[0].main === "Snow") {
       return <Image src="/images/snow.png" width={180} height={180} alt="snow" />;
@@ -62,6 +62,7 @@ export default function WeatherApp() {
       setWeather(response.data);
     } catch {
       setError("Could not fetch weather data. Please check the city name.");
+      setWeather(null);
     }
   };
 
@@ -77,9 +78,7 @@ export default function WeatherApp() {
           </h1>
         {/* parent Div */}
         <div
-          className={`bg-white/[.3] backdrop-blur-xl relative w-[300px] sm:w-[400px] p-5 rounded-2xl border-2 border-solid border-inherit transition-all duration-500 ${
-            weather ? "h-[555px]" : "h-[100px]"
-          }`}
+          className={`bg-white/[.3] backdrop-blur-xl relative w-[300px] sm:w-[400px] p-5 rounded-2xl border-2 border-solid border-inherit transition-all duration-500 ${weather ? "h-[555px]" : "h-[100px]"} ${error ? "h-[auto]" : "h-[100px]"}`}
         >
           <div className="relative w-full h-14 flex items-center bg-transparent">
             <MapPinIcon className="absolute left-2 w-5 h-5 text-white" />
